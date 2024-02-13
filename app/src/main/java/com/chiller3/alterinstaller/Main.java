@@ -53,10 +53,10 @@ public class Main {
 
         // This will make the output file size potentially up to 2 times the input size. There is no
         // way to easily extend TypedXmlPullParser via reflection, so binary attributes that were
-        // efficiently stored as binary data in the input file will be stored as hex output file.
-        // The difference is only in representation, not semantics. It's not worth try to improve
-        // this situation because the package manager will rewrite the file as soon as any package
-        // operation occurs (app update, etc.).
+        // efficiently stored as binary data in the input file will be stored as hex strings in the
+        // output file. The difference is only in representation, not semantics. It's not worth
+        // trying to improve this situation because the package manager will rewrite the file as
+        // soon as any package operation occurs (app update, etc.).
         copy(input, output);
     }
 
