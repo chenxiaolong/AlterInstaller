@@ -5,6 +5,7 @@ import android.os.Build;
 import android.system.Os;
 import android.system.OsConstants;
 import android.system.StructStat;
+import android.util.Log;
 import android.util.Xml;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -28,6 +29,8 @@ import java.util.Properties;
  */
 @SuppressLint({"BlockedPrivateApi", "SoonBlockedPrivateApi"})
 public class Main {
+    private static final String TAG = "AlterInstaller";
+
     private static XmlPullParser resolvePullParser(InputStream is) throws Exception {
         Method method = Xml.class.getDeclaredMethod("resolvePullParser", InputStream.class);
         return (XmlPullParser) method.invoke(null, is);
@@ -49,7 +52,8 @@ public class Main {
         XmlSerializer output = new AlterInstallerSerializer(
                 resolveSerializer(outputStream), packageToInstaller,
                 (packageName, field, oldValue, newValue) ->
-                        System.err.printf("[%s] Changing %s: %s -> %s%n", packageName, field, oldValue, newValue));
+                        Log.i(TAG, "[" + packageName + "] Changing " + field + ": " +
+                                oldValue + " -> " + newValue));
 
         // This will make the output file size potentially up to 2 times the input size. There is no
         // way to easily extend TypedXmlPullParser via reflection, so binary attributes that were
@@ -130,12 +134,11 @@ public class Main {
             }
 
             HashMap<String, String> config = parseConfig(configPath);
-            System.err.println("Loaded config: " + config);
+            Log.i(TAG, "Loaded config: " + config);
 
             alterXml(inputPath, outputPath, config);
         } catch (Exception e) {
-            System.err.println("Failed to alter package manager state");
-            e.printStackTrace();
+            Log.e(TAG, "Failed to alter package manager state", e);
             System.exit(1);
         }
     }
