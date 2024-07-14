@@ -29,23 +29,7 @@ The module directly modifies `/data/system/packages.xml` before the package mana
 
 ## Verifying digital signatures
 
-First save the public key to a file that lists which keys should be trusted.
-
-```bash
-echo 'AlterInstaller ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDOe6/tBnO7xZhAWXRj3ApUYgn+XZ0wnQiXM8B7tPgv4' > AlterInstaller_trusted_keys
-```
-
-Then, verify the signature of the zip file using the list of trusted keys.
-
-```bash
-ssh-keygen -Y verify -f AlterInstaller_trusted_keys -I AlterInstaller -n file -s AlterInstaller-<version>-release.zip.sig < AlterInstaller-<version>-release.zip
-```
-
-If the file is successfully verified, the output will be:
-
-```
-Good "file" signature for AlterInstaller with ED25519 key SHA256:Ct0HoRyrFLrnF9W+A/BKEiJmwx7yWkgaW/JvghKrboA
-```
+To verify the digital signatures of the downloads, follow [the steps here](https://github.com/chenxiaolong/chenxiaolong/blob/master/VERIFY_SSH_SIGNATURES.md).
 
 ## Building from source
 
