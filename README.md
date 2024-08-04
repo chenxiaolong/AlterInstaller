@@ -3,7 +3,7 @@
 [![latest release badge](https://img.shields.io/github/v/release/chenxiaolong/AlterInstaller?sort=semver)](https://github.com/chenxiaolong/AlterInstaller/releases/latest)
 [![license badge](https://img.shields.io/github/license/chenxiaolong/AlterInstaller)](./LICENSE)
 
-AlterInstaller is a simple Magisk/KernelSU module that changes apps' installer and initiating installer fields in the Android package manager database. This makes it possible to spoof where an app is installed from.
+AlterInstaller is a simple Magisk/KernelSU module that changes apps' installer, initiating installer, and update owner fields in the Android package manager database. This makes it possible to spoof where an app is installed from and control which app store is allowed to update it.
 
 The module directly modifies `/data/system/packages.xml` before the package manager service starts and thus, does not require runtime code injection (eg. Zygisk). Because this state file is modified, the changes persist even if the module is uninstalled.
 
@@ -15,12 +15,19 @@ The module directly modifies `/data/system/packages.xml` before the package mana
 
 2. Install the module from the Magisk/KernelSU app.
 
-3. Create `/data/local/tmp/AlterInstaller.properties` listing the package IDs to modify:
+3. Create `/data/local/tmp/AlterInstaller.json` listing the package IDs to modify:
 
-    ```properties
-    # Syntax: <Package> = <Installer>
-    # For example, to mark VLC as being installed by the Play Store:
-    org.videolan.vlc = com.android.vending
+    ```jsonc
+    {
+        // The top level key is the package to modify. The values below can be
+        // omitted or set to null to leave the fields unchanged.
+        "org.videolan.vlc": {
+            // Mark VLC as being installed by the Play Store.
+            "installer": "com.android.vending",
+            // Mark VLC as being only updatable by Droid-ify.
+            "updateOwner": "com.looker.droidify"
+        }
+    }
     ```
 
 4. Reboot. The log file is written to `/data/local/tmp/AlterInstaller.log`.
