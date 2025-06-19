@@ -15,7 +15,7 @@ plugins {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(21))
     }
 }
 
@@ -113,8 +113,8 @@ val archiveDir = extraDir.map { it.dir("archive") }
 android {
     namespace = "com.chiller3.alterinstaller"
 
-    compileSdk = 34
-    buildToolsVersion = "34.0.0"
+    compileSdk = 36
+    buildToolsVersion = "36.0.0"
 
     defaultConfig {
         applicationId = "com.chiller3.alterinstaller"
@@ -144,8 +144,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility(JavaVersion.VERSION_17)
-        targetCompatibility(JavaVersion.VERSION_17)
+        sourceCompatibility(JavaVersion.VERSION_21)
+        targetCompatibility(JavaVersion.VERSION_21)
     }
 }
 
