@@ -9,6 +9,8 @@
 
 ### Unreleased
 
+* Update build script dependencies and target API 36 ([PR #9])
+
 ### Version 2.0
 
 * Update checksum for `tensorflow-lite-metadata-0.1.0-rc2.pom` dependency ([PR #3])
@@ -30,3 +32,4 @@
 [PR #3]: https://github.com/chenxiaolong/AlterInstaller/pull/3
 [PR #4]: https://github.com/chenxiaolong/AlterInstaller/pull/4
 [PR #5]: https://github.com/chenxiaolong/AlterInstaller/pull/5
+[PR #9]: https://github.com/chenxiaolong/AlterInstaller/pull/9
