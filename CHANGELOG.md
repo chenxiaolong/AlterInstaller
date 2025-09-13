@@ -10,6 +10,7 @@
 ### Unreleased
 
 * Remove dependency info block from APK ([PR #11])
+* Update dependencies ([PR #12])
 
 ### Version 2.1
 
@@ -38,3 +39,4 @@
 [PR #5]: https://github.com/chenxiaolong/AlterInstaller/pull/5
 [PR #9]: https://github.com/chenxiaolong/AlterInstaller/pull/9
 [PR #11]: https://github.com/chenxiaolong/AlterInstaller/pull/11
+[PR #12]: https://github.com/chenxiaolong/AlterInstaller/pull/12
