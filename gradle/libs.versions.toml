@@ -1,5 +1,5 @@
 [versions]
-android-gradle-plugin = "8.10.1"
+android-gradle-plugin = "8.13.0"
 jgit = "7.3.0.202506031305-r"
 json = "20250517"
 
