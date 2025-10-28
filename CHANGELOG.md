@@ -7,7 +7,7 @@
     to update the actual links at the bottom of the file.
 -->
 
-### Unreleased
+### Version 2.3
 
 * Fix compatibility with Android 12 through 14 ([Issue #15], [PR #16])
 * Update dependencies ([PR #17])
