@@ -118,7 +118,7 @@ android {
 
     defaultConfig {
         applicationId = "com.chiller3.alterinstaller"
-        minSdk = compileSdk
+        minSdk = 31
         targetSdk = compileSdk
         versionCode = gitVersionCode
         versionName = gitVersionName
@@ -404,10 +404,10 @@ tasks.register("changelogUpdateLinks") {
 }
 
 tasks.register("changelogPreRelease") {
-    doLast {
-        val version = project.property("releaseVersion")
+    val version = project.findProperty("releaseVersion")
 
-        updateChangelog(version.toString(), true)
+    doLast {
+        updateChangelog(version!!.toString(), true)
         updateModuleChangelog("v$version")
     }
 }

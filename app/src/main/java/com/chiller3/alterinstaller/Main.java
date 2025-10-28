@@ -122,7 +122,7 @@ public class Main {
     private static HashMap<String, PackageConfig> parsePropConfig(String path) throws IOException {
         Properties properties = new Properties();
 
-        try (FileReader reader = new FileReader(path, StandardCharsets.UTF_8)) {
+        try (FileReader reader = new FileReader(path)) {
             properties.load(reader);
         }
 

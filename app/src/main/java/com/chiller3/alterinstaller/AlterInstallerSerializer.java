@@ -195,7 +195,9 @@ public class AlterInstallerSerializer implements XmlSerializer {
             throw new IllegalStateException("Tag stack is empty");
         }
 
-        String prev = tags.removeLast();
+        // Android Studio suggests removeLast() despite our minSdk version not supporting it.
+        //noinspection SequencedCollectionMethodCanBeUsed
+        String prev = tags.remove(tags.size() - 1);
         if (!TextUtils.equals(prev, name)) {
             throw new IllegalStateException("Expected to pop " + name + ", but have " + prev);
         }
