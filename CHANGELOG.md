@@ -9,6 +9,8 @@
 
 ### Unreleased
 
+* Fix compatibility with Android 12 through 14 ([Issue #15], [PR #16])
+
 ### Version 2.2
 
 * Remove dependency info block from APK ([PR #11])
@@ -35,6 +37,7 @@
 * Initial release
 
 <!-- Do not manually edit the lines below. Use `./gradlew changelogUpdateLinks` to regenerate. -->
+[Issue #15]: https://github.com/chenxiaolong/AlterInstaller/issues/15
 [PR #2]: https://github.com/chenxiaolong/AlterInstaller/pull/2
 [PR #3]: https://github.com/chenxiaolong/AlterInstaller/pull/3
 [PR #4]: https://github.com/chenxiaolong/AlterInstaller/pull/4
@@ -42,3 +45,4 @@
 [PR #9]: https://github.com/chenxiaolong/AlterInstaller/pull/9
 [PR #11]: https://github.com/chenxiaolong/AlterInstaller/pull/11
 [PR #12]: https://github.com/chenxiaolong/AlterInstaller/pull/12
+[PR #16]: https://github.com/chenxiaolong/AlterInstaller/pull/16
