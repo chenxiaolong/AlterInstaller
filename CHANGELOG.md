@@ -10,6 +10,7 @@
 ### Unreleased
 
 * Fix compatibility with Android 12 through 14 ([Issue #15], [PR #16])
+* Update dependencies ([PR #17])
 
 ### Version 2.2
 
@@ -46,3 +47,4 @@
 [PR #11]: https://github.com/chenxiaolong/AlterInstaller/pull/11
 [PR #12]: https://github.com/chenxiaolong/AlterInstaller/pull/12
 [PR #16]: https://github.com/chenxiaolong/AlterInstaller/pull/16
+[PR #17]: https://github.com/chenxiaolong/AlterInstaller/pull/17
