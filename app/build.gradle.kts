@@ -1,12 +1,15 @@
 /*
- * SPDX-FileCopyrightText: 2022-2024 Andrew Gunnerson
+ * SPDX-FileCopyrightText: 2022-2026 Andrew Gunnerson
  * SPDX-License-Identifier: GPL-3.0-only
  */
 
+import com.android.build.api.artifact.SingleArtifact
+import com.android.build.api.variant.VariantOutputConfiguration
 import org.eclipse.jgit.api.ArchiveCommand
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.archive.TarFormat
 import org.eclipse.jgit.lib.ObjectId
+import org.gradle.kotlin.dsl.support.uppercaseFirstChar
 import org.json.JSONObject
 
 plugins {
@@ -21,15 +24,13 @@ java {
 
 buildscript {
     dependencies {
-        "classpath"(libs.jgit)
-        "classpath"(libs.jgit.archive)
-        "classpath"(libs.json)
+        classpath(libs.jgit)
+        classpath(libs.jgit.archive)
+        classpath(libs.json)
     }
 }
 
 typealias VersionTriple = Triple<String?, Int, ObjectId>
-
-fun<T> MutableList<T>.pop(): T = removeAt(size - 1)
 
 fun describeVersion(git: Git): VersionTriple {
     // jgit doesn't provide a nice way to get strongly-typed objects from its `describe` command
@@ -37,8 +38,8 @@ fun describeVersion(git: Git): VersionTriple {
 
     return if (describeStr != null) {
         val pieces = describeStr.split('-').toMutableList()
-        val commit = git.repository.resolve(pieces.pop().substring(1))
-        val count = pieces.pop().toInt()
+        val commit = git.repository.resolve(pieces.removeLast().substring(1))
+        val count = pieces.removeLast().toInt()
         val tag = pieces.joinToString("-")
 
         Triple(tag, count, commit)
@@ -123,13 +124,6 @@ android {
         versionCode = gitVersionCode
         versionName = gitVersionName
     }
-    sourceSets {
-        getByName("main") {
-            assets {
-                srcDir(archiveDir)
-            }
-        }
-    }
     buildTypes {
         getByName("debug") {
             signingConfig = null
@@ -150,6 +144,14 @@ android {
     dependenciesInfo {
         includeInApk = false
         includeInBundle = false
+    }
+}
+
+androidComponents.onVariants { variant ->
+    variant.sources.assets!!.addGeneratedSourceDirectory(archive) {
+        project.objects.directoryProperty().apply {
+            set(archiveDir)
+        }
     }
 }
 
@@ -177,14 +179,21 @@ val archive = tasks.register("archive") {
     }
 }
 
-android.applicationVariants.all {
-    val variant = this
-    val capitalized = variant.name.replaceFirstChar { it.uppercase() }
+androidComponents.onVariants { variant ->
+    val capitalized = variant.name.uppercaseFirstChar()
     val variantDir = extraDir.map { it.dir(variant.name) }
-
-    variant.preBuildProvider.configure {
-        dependsOn(archive)
+    val variantOutput = variant.outputs.first {
+        it.outputType == VariantOutputConfiguration.OutputType.SINGLE
     }
+    val variantVersionCode = variantOutput.versionCode
+    val variantVersionName = variantOutput.versionName
+    val variantApkFiles = variant.artifacts.get(SingleArtifact.APK).map {
+        variant.artifacts.getBuiltArtifactsLoader().load(it)!!.elements.map { element ->
+            element.outputFile
+        }
+    }
+
+    variant.lifecycleTasks.registerPreBuild(archive)
 
     val moduleProp = tasks.register("moduleProp${capitalized}") {
         inputs.property("projectUrl", projectUrl)
@@ -192,18 +201,18 @@ android.applicationVariants.all {
         inputs.property("rootProject.name", rootProject.name)
         inputs.property("variant.applicationId", variant.applicationId)
         inputs.property("variant.name", variant.name)
-        inputs.property("variant.versionCode", variant.versionCode)
-        inputs.property("variant.versionName", variant.versionName)
+        inputs.property("variantVersionCode", variantVersionCode)
+        inputs.property("variantVersionName", variantVersionName)
 
         val outputFile = variantDir.map { it.file("module.prop") }
         outputs.file(outputFile)
 
         doLast {
             val props = LinkedHashMap<String, String>()
-            props["id"] = variant.applicationId
+            props["id"] = variant.applicationId.get()
             props["name"] = rootProject.name
-            props["version"] = "v${variant.versionName}"
-            props["versionCode"] = variant.versionCode.toString()
+            props["version"] = "v${variantVersionName.get()}"
+            props["versionCode"] = variantVersionCode.get().toString()
             props["author"] = "chenxiaolong"
             props["description"] = "Change PackageManager installer fields on boot"
 
@@ -220,9 +229,10 @@ android.applicationVariants.all {
         inputs.property("rootProject.name", rootProject.name)
         inputs.property("variant.applicationId", variant.applicationId)
         inputs.property("variant.name", variant.name)
-        inputs.property("variant.versionName", variant.versionName)
+        inputs.property("variantVersionName", variantVersionName)
+        inputs.files(variantApkFiles)
 
-        archiveFileName.set("${rootProject.name}-${variant.versionName}-${variant.name}.zip")
+        archiveFileName.set("${rootProject.name}-${variantVersionName.get()}-${variant.name}.zip")
         // Force instantiation of old value or else this will cause infinite recursion
         destinationDirectory.set(destinationDirectory.dir(variant.name).get())
 
@@ -230,10 +240,8 @@ android.applicationVariants.all {
         isPreserveFileTimestamps = false
         isReproducibleFileOrder = true
 
-        dependsOn.add(variant.assembleProvider)
-
         from(moduleProp.map { it.outputs })
-        from(variant.outputs.map { it.outputFile })
+        from(variantApkFiles)
 
         val moduleDir = File(projectDir, "module")
 
@@ -258,8 +266,8 @@ android.applicationVariants.all {
         inputs.property("projectUrl", projectUrl)
         inputs.property("rootProject.name", rootProject.name)
         inputs.property("variant.name", variant.name)
-        inputs.property("variant.versionCode", variant.versionCode)
-        inputs.property("variant.versionName", variant.versionName)
+        inputs.property("variantVersionCode", variantVersionCode)
+        inputs.property("variantVersionName", variantVersionName)
 
         val moduleDir = File(projectDir, "module")
         val updatesDir = File(moduleDir, "updates")
@@ -274,9 +282,9 @@ android.applicationVariants.all {
             }
 
             val root = JSONObject()
-            root.put("version", variant.versionName)
-            root.put("versionCode", variant.versionCode)
-            root.put("zipUrl", "${projectUrl}/releases/download/${gitVersionTriple.first}/${rootProject.name}-${variant.versionName}-release.zip")
+            root.put("version", variantVersionName.get())
+            root.put("versionCode", variantVersionCode.get())
+            root.put("zipUrl", "${projectUrl}/releases/download/${gitVersionTriple.first}/${rootProject.name}-${variantVersionName.get()}-release.zip")
             root.put("changelog", "${projectUrl}/raw/${gitVersionTriple.first}/app/module/updates/${variant.name}/changelog.txt")
 
             jsonFile.writer().use {

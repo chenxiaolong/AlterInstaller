@@ -1,7 +1,7 @@
 [versions]
-android-gradle-plugin = "8.13.0"
-jgit = "7.4.0.202509020913-r"
-json = "20250517"
+android-gradle-plugin = "9.0.0"
+jgit = "7.5.0.202512021534-r"
+json = "20251224"
 
 [libraries]
 # Build script
