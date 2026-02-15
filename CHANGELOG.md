@@ -10,7 +10,7 @@
 ### Unreleased
 
 * Update AGP to 9.0.0 ([PR #9])
-* Reenable default proguard optimizations ([PR #19])
+* Reenable default proguard optimizations ([PR #19], [PR #20])
   * For folks who want to decode stack traces from log files, the mapping files are now included with the official releases in `mappings.tar.zst`
 
 ### Version 2.3
@@ -55,3 +55,4 @@
 [PR #16]: https://github.com/chenxiaolong/AlterInstaller/pull/16
 [PR #17]: https://github.com/chenxiaolong/AlterInstaller/pull/17
 [PR #19]: https://github.com/chenxiaolong/AlterInstaller/pull/19
+[PR #20]: https://github.com/chenxiaolong/AlterInstaller/pull/20
