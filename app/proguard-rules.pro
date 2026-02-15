@@ -14,5 +14,5 @@
 
 # Keep standalone CLI utilities
 -keep class com.chiller3.alterinstaller.* {
-    *;
+    void main(java.lang.String[]);
 }
