@@ -1,8 +1,5 @@
 # AlterInstaller
 
-[![latest release badge](https://img.shields.io/github/v/release/chenxiaolong/AlterInstaller?sort=semver)](https://github.com/chenxiaolong/AlterInstaller/releases/latest)
-[![license badge](https://img.shields.io/github/license/chenxiaolong/AlterInstaller)](./LICENSE)
-
 AlterInstaller is a simple Magisk/KernelSU module that changes apps' installer, initiating installer, and update owner fields in the Android package manager database. This makes it possible to spoof where an app is installed from and control which app store is allowed to update it.
 
 The module directly modifies `/data/system/packages.xml` before the package manager service starts and thus, does not require runtime code injection (eg. Zygisk). Because this state file is modified, the changes persist even if the module is uninstalled.
@@ -52,4 +49,4 @@ The output file is written to `app/build/distributions/release/`.
 
 ## License
 
-AlterInstaller is licensed under GPLv3. Please see [`LICENSE`](./LICENSE) for the full license text.
+AlterInstaller is licensed under GPL-3.0-only. Please see [`LICENSE`](./LICENSE) for the full license text.
