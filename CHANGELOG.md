@@ -7,7 +7,7 @@
     to update the actual links at the bottom of the file.
 -->
 
-### Unreleased
+### Version 2.4
 
 * Update AGP to 9.0.0 ([PR #9])
 * Reenable default proguard optimizations ([PR #19], [PR #20])
