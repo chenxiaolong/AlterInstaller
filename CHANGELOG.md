@@ -12,6 +12,7 @@
 * Update AGP to 9.0.0 ([PR #9])
 * Reenable default proguard optimizations ([PR #19], [PR #20])
   * For folks who want to decode stack traces from log files, the mapping files are now included with the official releases in `mappings.tar.zst`
+* Update target API version to API 37 (Android 17) ([PR #21])
 
 ### Version 2.3
 
@@ -56,3 +57,4 @@
 [PR #17]: https://github.com/chenxiaolong/AlterInstaller/pull/17
 [PR #19]: https://github.com/chenxiaolong/AlterInstaller/pull/19
 [PR #20]: https://github.com/chenxiaolong/AlterInstaller/pull/20
+[PR #21]: https://github.com/chenxiaolong/AlterInstaller/pull/21
