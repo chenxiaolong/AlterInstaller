@@ -401,7 +401,7 @@ fun updateChangelog(version: String?, replaceFirst: Boolean) {
 }
 
 fun updateModuleChangelog(gitRef: String) {
-    File(File(File(File(projectDir, "module"), "updates"), "release"), "changelog.txt")
+    File(projectDir, "module/updates/release/changelog.txt")
         .writeText("The changelog can be found at: [`CHANGELOG.md`]($projectUrl/blob/$gitRef/CHANGELOG.md).\n")
 }
 
