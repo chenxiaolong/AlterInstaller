@@ -9,6 +9,8 @@
 
 ### Unreleased
 
+* Minor build system cleanup ([PR #22])
+
 ### Version 2.4
 
 * Update AGP to 9.0.0 ([PR #9])
@@ -60,3 +62,4 @@
 [PR #19]: https://github.com/chenxiaolong/AlterInstaller/pull/19
 [PR #20]: https://github.com/chenxiaolong/AlterInstaller/pull/20
 [PR #21]: https://github.com/chenxiaolong/AlterInstaller/pull/21
+[PR #22]: https://github.com/chenxiaolong/AlterInstaller/pull/22
