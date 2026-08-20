@@ -10,6 +10,7 @@
 ### Unreleased
 
 * Minor build system cleanup ([PR #22])
+* Update dependencies ([PR #23])
 
 ### Version 2.4
 
@@ -63,3 +64,4 @@
 [PR #20]: https://github.com/chenxiaolong/AlterInstaller/pull/20
 [PR #21]: https://github.com/chenxiaolong/AlterInstaller/pull/21
 [PR #22]: https://github.com/chenxiaolong/AlterInstaller/pull/22
+[PR #23]: https://github.com/chenxiaolong/AlterInstaller/pull/23
